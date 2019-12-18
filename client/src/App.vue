@@ -1,29 +1,38 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+    <div id="app">
+        {{ now | date('HH:mm:ss') }}
+        <weather></weather>
+        <news></news>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import { createComponent, ref, onMounted } from '@vue/composition-api'
+import weather from './components/weather.vue'
+import news from './components/news.vue'
 
-@Component({
-  components: {
-    HelloWorld,
-  },
+export default createComponent({
+    setup() {
+        const now = ref(new Date())
+        let show = false
+        onMounted(() => {
+            setInterval(() => {
+                show = !show
+                now.value = new Date()
+            }, 500)
+        })
+
+        return {
+            now,
+        }
+    },
+    components: {
+        weather,
+        news,
+    },
 })
-export default class App extends Vue {}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>

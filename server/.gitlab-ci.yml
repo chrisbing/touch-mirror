@@ -1,0 +1,25 @@
+stages:
+  - prepare
+  - build
+
+prepare:
+  stage: prepare
+  only:
+    - tags
+    - develop
+  script:
+    - med prepare -n prepare
+
+build-dev:
+  stage: build
+  only:
+    - develop
+  script:
+     - med build -n build-dev -e "CI_PROJECT_URL=$CI_PROJECT_URL,CI_COMMIT_SHA=$CI_COMMIT_SHA,CI_COMMIT_REF_NAME=$CI_COMMIT_REF_NAME,CI_PROJECT_NAME=$CI_PROJECT_NAME,CI_PROJECT_NAMESPACE=$CI_PROJECT_NAMESPACE,GITLAB_USER_EMAIL=$GITLAB_USER_EMAIL"
+
+build-prod:
+  stage: build
+  only:
+    - tags
+  script:
+    - med build -n build-prod -e "CI_PROJECT_URL=$CI_PROJECT_URL,CI_COMMIT_SHA=$CI_COMMIT_SHA,CI_COMMIT_REF_NAME=$CI_COMMIT_REF_NAME,CI_PROJECT_NAME=$CI_PROJECT_NAME,CI_PROJECT_NAMESPACE=$CI_PROJECT_NAMESPACE,GITLAB_USER_EMAIL=$GITLAB_USER_EMAIL,CI_COMMIT_TAG=$CI_COMMIT_TAG"

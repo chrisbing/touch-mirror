@@ -4,5 +4,14 @@
   "main": "index.js",
   "repository": "https://github.com/chrisbing/touch-mirror.git",
   "author": "chris <bingyuwuhen@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "client-dev": "cd client && yarn serve",
+    "server-dev": "cd server && yarn server-dev"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
 }
