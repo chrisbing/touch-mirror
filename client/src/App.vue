@@ -3,6 +3,7 @@
         {{ now | date('HH:mm:ss') }}
         <weather></weather>
         <news></news>
+        <songs></songs>
     </div>
 </template>
 
@@ -10,6 +11,7 @@
 import { createComponent, ref, onMounted } from '@vue/composition-api'
 import weather from './components/weather.vue'
 import news from './components/news.vue'
+import songs from './components/songs.vue'
 
 export default createComponent({
     setup() {
@@ -29,6 +31,7 @@ export default createComponent({
     components: {
         weather,
         news,
+        songs,
     },
 })
 </script>

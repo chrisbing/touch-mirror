@@ -1,3 +1,5 @@
+import 'source-map-support/register'
+
 import Koa, {Middleware} from 'koa'
 
 import KoaBody from 'koa-body'
@@ -6,6 +8,11 @@ import cors from '@koa/cors'
 import session from 'koa-session'
 import router from './router'
 import restful from './middleware/koa-restful'
+import fs from 'fs'
+import path from 'path'
+import cookie from 'cookie'
+// @ts-ignore
+import request from './util/request'
 
 const server = new Koa()
 
@@ -73,6 +80,48 @@ server.use(KoaBody({
     multipart: true,
     json: true,
 }))
+
+
+// router
+const special = {
+    'daily_signin.js': '/daily_signin',
+    'fm_trash.js': '/fm_trash',
+    'personal_fm.js': '/personal_fm'
+} as { [key:string]:string }
+
+
+
+fs.readdirSync(path.join(__dirname, 'module')).reverse().forEach(file => {
+    if(!file.endsWith('.js')) return
+    let route: string = (file in special) ? special[file] : '/' + file.replace(/\.js$/i, '').replace(/_/g, '/')
+    let question = require(path.join(__dirname, 'module', file))
+
+    router.get('/api' + route, (ctx) => {
+        let query = Object.assign({}, ctx.query, ctx.body, {cookie: cookie.parse(ctx.request.headers.cookie || '')})
+        return question(query, request)
+            .then((answer:any) => {
+                console.log('[OK]', decodeURIComponent(ctx.originalUrl))
+                answer.cookie.forEach((c: string) => {
+                    let ck = cookie.parse(c)
+                    let keys = Object.keys(ck)
+                    ctx.cookies.set(keys[0], ck[keys[0]], {
+                        ...ck,
+                        [keys[0]]: undefined,
+                    })
+                })
+                console.log(ctx.request.headers.cookie)
+                ctx.body = answer.body
+            })
+            .catch((answer:any) => {
+                console.log('[ERR]', decodeURIComponent(ctx.originalUrl))
+                if(answer.body.code == '301') answer.body.msg = '需要登录'
+                console.log(answer.cookie)
+                ctx.response.headers['set-cookie'] = answer.cookie.join('; ')
+                ctx.body = answer.body
+            })
+    })
+})
+
 server.use(router.routes())
     .use(router.allowedMethods())
 
