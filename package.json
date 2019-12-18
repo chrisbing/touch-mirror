@@ -1,0 +1,8 @@
+{
+  "name": "touch-mirror",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/chrisbing/touch-mirror.git",
+  "author": "chris <bingyuwuhen@gmail.com>",
+  "license": "MIT"
+}
