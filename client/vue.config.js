@@ -1,5 +1,4 @@
 module.exports = {
-    publicPath: 'http://mirror.local.com/',
     chainWebpack(config) {
         config.module.rule('eslint').use('eslint-loader')
             .tap((arg) => {

@@ -22,6 +22,7 @@ function useWeather() {
     setInterval(() => {
         updateWeather()
     }, 1000 * 60 * 60)
+
     return weather
 }
 

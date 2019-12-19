@@ -12,3 +12,12 @@ export function getRecommendSongs() {
     return net.get('/api/recommend/songs')
 }
 
+export function getTopList(idx: number) {
+    return net.get('/api/top/list', {
+        params: {
+            idx,
+        },
+    })
+}
+
+

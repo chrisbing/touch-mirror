@@ -1,19 +1,21 @@
 <template>
-    <div class="weather" v-if="weather">
-        <div v-for="item in weather.dailySongs">{{ item.name }}</div>
+    <div class="songs" v-if="weather">
+        <div v-for="item in weather.tracks"><img :src="item.al.picUrl + '?param=200y200'" alt="">
+            {{ item.name }}
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { createComponent, ref } from '@vue/composition-api'
-import { getRecommendSongs } from '@/network'
+import { getTopList } from '@/network'
 
 function useSongs() {
     const weather = ref(null)
 
     function updateSongs() {
-        getRecommendSongs().then(({ data }) => {
-            weather.value = data.data
+        getTopList(6).then(({ data }) => {
+            weather.value = data.playlist
         })
     }
 
@@ -30,3 +32,9 @@ export default createComponent({
     },
 })
 </script>
+
+<style scoped lang="scss">
+    .songs {
+        font-size: 20px;
+    }
+</style>
