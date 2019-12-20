@@ -1,7 +1,9 @@
 <template>
-    <div class="news" v-if="news">
-        <div v-for="item in news.items">{{ item.title }}</div>
-    </div>
+    <section class="wrapper">
+        <div class="news" v-if="news">
+            <div class="item" v-for="item in news.items">{{ item.title }}</div>
+        </div>
+    </section>
 </template>
 
 <script lang="ts">
@@ -35,7 +37,25 @@ export default createComponent({
 </script>
 
 <style scoped lang="scss">
-    .news {
+    .wrapper{
+        position: absolute;
+        top: 300px;
+        right: 0;
+        width: 50%;
+        height: calc(50% - 300px);
         font-size: 24px;
+
+        padding: 40px;
+
+        .news {
+            height: 100%;
+            overflow: auto;
+
+            .item {
+                padding: 20px 0;
+            }
+
+        }
     }
+
 </style>

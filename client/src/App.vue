@@ -1,6 +1,12 @@
 <template>
     <div id="app">
-        {{ now | date('HH:mm:ss') }}
+        <div class="module-time">
+            <div class="time">{{ now | date('HH:mm') }}</div>
+            <div class="date">
+                星期{{ '日一二三四五六'.split('')[now.getDay()] }}
+                {{ now | date('YYYY.MM.DD') }}
+            </div>
+        </div>
         <weather></weather>
         <news></news>
         <songs></songs>
@@ -37,5 +43,33 @@ export default createComponent({
 </script>
 
 <style lang="scss">
+
+    $height: 100px;
+    $second-height: 40px;
+    $gray: #aaaaaa;
+
+    .module-time{
+        position: absolute;
+        /*width: 30%;*/
+        text-align: center;
+        top: 100px;
+        left: 100px;
+
+        .time {
+            height: $height;
+            line-height: $height;
+            font-size: $height - 2px;
+            margin-bottom: 20px;
+        }
+
+        .date{
+            font-size: $second-height - 5px;
+            line-height: $second-height - 4px;
+            color: $gray;
+        }
+    }
+
+
+
 
 </style>
