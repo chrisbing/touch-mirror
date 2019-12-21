@@ -20,4 +20,11 @@ export function getTopList(idx: number) {
     })
 }
 
-
+export function getSongUrl(id: number, br?: number) {
+    return net.get('/api/song/url', {
+        params: {
+            id,
+            br,
+        },
+    })
+}
