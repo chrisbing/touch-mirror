@@ -38,16 +38,16 @@ import { getSongUrl, getTopList } from '@/network'
 import Vue from 'vue'
 
 function useSongs() {
-    const weather = ref<any>(null)
+    const songs = ref<any>(null)
 
     function updateSongs() {
         getTopList(6).then(({ data }) => {
-            weather.value = data.playlist
+            songs.value = data.playlist
         })
     }
 
     updateSongs()
-    return weather
+    return songs
 }
 
 export default createComponent({
